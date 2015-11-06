@@ -71,4 +71,17 @@ interface TwoFactorKeyInterface
      * @return $this
      */
     public function setCounter($counter);
+
+    /**
+     * getName
+     * @return string
+     **/
+    public function getName();
+
+    /**
+     * setName
+     * @param string $name
+     * @return $this
+     **/
+    public function setName($name);
 }

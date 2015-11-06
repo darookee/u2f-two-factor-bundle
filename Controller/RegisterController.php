@@ -26,7 +26,7 @@ class RegisterController extends Controller
             $registration = $u2fAuthenticator->doRegistration($registrationRequest[0], $registerData);
 
             $dispatcher = $this->get('event_dispatcher');
-            $event = new RegisterEvent($registration, $this->getUser());
+            $event = new RegisterEvent($registration, $this->getUser(), $request->get('keyName'));
             $dispatcher->dispatch('r_u2f_two_factor.register', $event);
 
             return $event->getResponse();

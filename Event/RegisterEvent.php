@@ -21,20 +21,27 @@ class RegisterEvent extends Event
     protected $user;
 
     /**
+     * @var string
+     **/
+    protected $keyName;
+
+    /**
      * @var Response
      **/
     protected $response;
 
     /**
      * __construct
-     * @param array $registration
-     * @param USer  $user
+     * @param array  $registration
+     * @param User   $user
+     * @param string $name
      * @return void
      **/
-    public function __construct($registration, $user)
+    public function __construct($registration, $user, $name)
     {
         $this->registration = $registration;
         $this->user = $user;
+        $this->keyName = $name;
     }
 
     /**
@@ -91,6 +98,30 @@ class RegisterEvent extends Event
     public function setResponse($response)
     {
         $this->response = $response;
+
+        return $this;
+    }
+
+    /**
+     * getKeyName
+     *
+     * @return mixed
+     */
+    public function getKeyName()
+    {
+        return $this->keyName;
+    }
+
+    /**
+     * setKeyName
+     *
+     * @param mixed $keyName
+     *
+     * @return $this
+     */
+    public function setKeyName($keyName)
+    {
+        $this->keyName = $keyName;
 
         return $this;
     }
