@@ -21,7 +21,7 @@ class RegisterController extends Controller
     {
         $u2fAuthenticator = $this->get('r_u2f_two_factor.authenticator');
         if ($request->isMethod('POST')) {
-            $registerData = json_decode($request->get('register'));
+            $registerData = json_decode($request->get('_auth_code'));
             $registrationRequest = json_decode($this->get('session')->get('u2f_registrationRequest'));
             $registration = $u2fAuthenticator->doRegistration($registrationRequest[0], $registerData);
 

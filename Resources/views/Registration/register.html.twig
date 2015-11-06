@@ -1,33 +1,5 @@
-<form method="post" action="{{ path('club_base_register_u2f') }}" id="u2fForm">
-    <input type="hidden" name="register" id="register" />
+<form method="post" action="{{ path('club_base_register_u2f') }}" id="u2fForm" data-action="reg" data-request='{{ registrationRequest|raw }}'>
+    <input type="hidden" name="_auth_code" id="_auth_code" />
 </form>
 <script src="/bundles/ru2ftwofactor/js/u2f.js"></script>
-<script>
-    function ready(fn) {
-        if (document.readyState != 'loading'){
-            fn();
-        } else if (document.addEventListener) {
-            document.addEventListener('DOMContentLoaded', fn);
-        } else {
-            document.attachEvent('onreadystatechange', function() {
-                if (document.readyState != 'loading')
-                    fn();
-            });
-        }
-    }
-
-    ready(function(){
-        setTimeout(function(){
-        var reg = {{ registrationRequest|raw }};
-        console.log(reg[0]);
-        u2f.register([reg[0]], reg[1], function(data){
-            if(!data.errorCode) {
-                var form = document.getElementById('u2fForm');
-                var register = document.getElementById('register');
-                register.value = JSON.stringify(data);
-                form.submit();
-            }
-        });
-        }, 1000);
-    });
-</script>
+<script src="/bundles/ru2ftwofactor/js/auth.js"></script>
