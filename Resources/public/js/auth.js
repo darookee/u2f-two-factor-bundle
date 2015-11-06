@@ -1,4 +1,4 @@
-function ready(fn) {
+var ready = function(fn) {
     if ('loading' !== document.readyState){
         fn();
     } else if (document.addEventListener) {
@@ -9,7 +9,7 @@ function ready(fn) {
                 fn();
         });
     }
-}
+};
 
 var authenticate = function(request, codeField, form) {
     u2f.sign(request, function(data){
