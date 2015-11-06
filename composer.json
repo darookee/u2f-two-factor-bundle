@@ -1,0 +1,16 @@
+{
+    "name": "r/u2f-two-factor-bundle",
+    "description": "Use U2F-Keys as 2FA for Symfony2, using scheb/two-factor-bundle",
+    "type": "symfony-bundle",
+    "require": {
+        "scheb/two-factor-bundle": "^1.4",
+        "yubico/u2flib-server": "^0.1.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nils Uliczka",
+            "email": "nils.uliczka@darookee.net"
+        }
+    ]
+}
