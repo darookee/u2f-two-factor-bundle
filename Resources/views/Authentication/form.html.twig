@@ -1,0 +1,36 @@
+<form class="form" action="" method="post" id="u2fForm">
+    {% for flashMessage in app.session.flashbag.get('two_factor') %}
+    <p class="error">{{ flashMessage|trans }}</p>
+    {% endfor %}
+    <p class="widget"><input id="_auth_code" type="hidden" autocomplete="off" name="_auth_code" /></p>
+    {% if useTrustedOption %}<p class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="_trusted" /> {{ 'scheb_two_factor.trusted'|trans }}</label></p>{% endif %}
+</form>
+<script src="/bundles/ru2ftwofactor/js/u2f.js"></script>
+<script>
+    function ready(fn) {
+        if (document.readyState != 'loading'){
+            fn();
+        } else if (document.addEventListener) {
+            document.addEventListener('DOMContentLoaded', fn);
+        } else {
+            document.attachEvent('onreadystatechange', function() {
+                if (document.readyState != 'loading')
+                    fn();
+            });
+        }
+    }
+
+    ready(function(){
+        setTimeout(function(){
+        var authData = {{ authenticationData|raw }};
+        u2f.sign(authData, function(data){
+            if(!data.errorCode) {
+                var form = document.getElementById('u2fForm');
+                var register = document.getElementById('_auth_code');
+                register.value = JSON.stringify(data);
+                form.submit();
+            }
+        });
+        }, 1000);
+    });
+</script>
