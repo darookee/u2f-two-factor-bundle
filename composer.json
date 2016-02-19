@@ -13,7 +13,7 @@
     ],
     "require": {
         "scheb/two-factor-bundle": "^1.4",
-        "yubico/u2flib-server": "^0.1.0"
+        "yubico/u2flib-server": "^0.1.0 | ^1.0.0"
     },
     "autoload": {
         "psr-4": {
