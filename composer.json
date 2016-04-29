@@ -16,8 +16,8 @@
         }
     ],
     "require": {
-        "scheb/two-factor-bundle": "^1.4 | ^2.0",
-        "yubico/u2flib-server": "^0.1.0 | ^1.0.0"
+        "scheb/two-factor-bundle": "^2.0",
+        "yubico/u2flib-server": "^1.0.0"
     },
     "conflict": {
         "tubssz/u2f-two-factor-bundle": "*",
