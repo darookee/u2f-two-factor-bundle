@@ -9,11 +9,19 @@
         {
             "name": "Nils Uliczka",
             "email": "nils.uliczka@darookee.net"
+        },
+        {
+            "name": "Francesco De Francesco",
+            "email": "francesco.defrancesco@gmail.com"
         }
     ],
     "require": {
         "scheb/two-factor-bundle": "^1.4 | ^2.0",
         "yubico/u2flib-server": "^0.1.0 | ^1.0.0"
+    },
+    "conflict": {
+        "tubssz/u2f-two-factor-bundle": "*",
+        "godzillante/u2f-two-factor-bundle": "*"
     },
     "autoload": {
         "psr-4": {
