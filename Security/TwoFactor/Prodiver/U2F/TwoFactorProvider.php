@@ -3,7 +3,7 @@
 namespace R\U2FTwoFactorBundle\Security\TwoFactor\Prodiver\U2F;
 
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface;
-use Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContext;
+use Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContextInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -52,10 +52,10 @@ class TwoFactorProvider implements TwoFactorProviderInterface
     }
     /**
      * beginAuthentication
-     * @param AuthenticationContext $context
+     * @param AuthenticationContextInterface $context
      * @return boolean
      **/
-    public function beginAuthentication(AuthenticationContext $context)
+    public function beginAuthentication(AuthenticationContextInterface $context)
     {
         $user = $context->getUser();
 
@@ -64,10 +64,10 @@ class TwoFactorProvider implements TwoFactorProviderInterface
 
     /**
      * requestAuthenticationCode
-     * @param AuthenticationContext $context
+     * @param AuthenticationContextInterface $context
      * @return \Symfony\Component\HttpFoundation\Response|null
      **/
-    public function requestAuthenticationCode(AuthenticationContext $context)
+    public function requestAuthenticationCode(AuthenticationContextInterface $context)
     {
         $user = $context->getUser();
         $request = $context->getRequest();
