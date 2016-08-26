@@ -1,5 +1,5 @@
 {
-    "name": "r/u2f-two-factor-bundle",
+    "name": "binarious/u2f-two-factor-bundle",
     "type": "symfony-bundle",
     "description": "Use U2F-Keys as 2FA for Symfony2, using scheb/two-factor-bundle",
     "keywords": ["two-factor", "two-step", "authentication", "symfony2", "fido", "yubikey"],
