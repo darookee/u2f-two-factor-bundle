@@ -37,9 +37,9 @@ public function registerBundles()
 These options are available but not required:
 
 ```yaml
-r_u2f_two_factor:
-    formTemplate: RU2FTwoFActorBundle:Authentication:form.html.twig
-    registerTemplate: RU2FTwoFActorBundle:Registration:register.html.twig
+ru2_f_two_factor:
+    formTemplate: RU2FTwoFactorBundle:Authentication:form.html.twig
+    registerTemplate: RU2FTwoFactorBundle:Registration:register.html.twig
     authCodeParameter: _auth_code
 ```
 
@@ -89,6 +89,16 @@ class User implements U2FTwoFactorInterface
     {
         $this->u2fKeys->add($key);
     }
+    
+    /**
+     * removeU2FKey
+     * @param U2FKey $key
+     * @return void
+     **/
+    public function removeU2FKey($key)
+    {
+        $this->u2fKeys->remove($key);
+    }
 
     /**
      * __construct
@@ -117,7 +127,7 @@ use R\U2FTwoFactorBundle\Model\U2F\TwoFactorKeyInterface;
  * @ORM\Entity
  * @ORM\Table(name="u2f_keys",
  * uniqueConstraints={@ORM\UniqueConstraint(name="user_unique",columns={"user_id",
- * "key_handle"})})
+ * "keyHandle"})})
  */
 class U2FKey implements TwoFactorKeyInterface
 {
@@ -141,7 +151,7 @@ class U2FKey implements TwoFactorKeyInterface
     public $publicKey;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="text")
      * @var string
      **/
     public $certificate;
@@ -164,7 +174,15 @@ class U2FKey implements TwoFactorKeyInterface
      **/
     protected $name;
 
-// ...
+    // ...
+    
+    public function fromRegistrationData($data)
+    {
+        $this->keyHandle = $data->keyHandle;
+        $this->publicKey = $data->publicKey;
+        $this->certificate = $data->certificate;
+        $this->counter = $data->counter;
+    }
 }
 ```
 
