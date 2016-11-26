@@ -12,7 +12,7 @@ var ready = function(fn) {
 };
 
 var authenticate = function(request, codeField, form) {
-    u2f.sign(request, function(data){
+    u2f.sign(request[0]['appId'], request[0]['challenge'], request, function(data){
         if(!data.errorCode) {
             codeField.value = JSON.stringify(data);
             form.submit();
@@ -23,7 +23,7 @@ var authenticate = function(request, codeField, form) {
 };
 
 var register = function(request, codeField, form) {
-    u2f.register([request[0]], request[1], function(data){
+    u2f.register(request[0]['appId'], [request[0]], request[1], function(data){
         if(!data.errorCode) {
             codeField.value = JSON.stringify(data);
             form.submit();
