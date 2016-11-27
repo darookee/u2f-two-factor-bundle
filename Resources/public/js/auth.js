@@ -5,6 +5,13 @@ var u2fauth = u2fauth || {};
 u2fauth.formId = 'u2fForm';
 u2fauth.authCodeId = '_auth_code';
 u2fauth.keynameId = 'u2fkeyname';
+u2fauth.errorTranslation = {
+    1: 'Unknown Error',
+    2: 'Bad Request',
+    3: 'Client configuration not supported',
+    4: 'Device already registered or ineligible',
+    5: 'Timeout',
+};
 
 u2fauth.ready = function(fn) {
     if ('loading' !== document.readyState){
@@ -55,7 +62,7 @@ u2fauth.showError = function(error, callback) {
     var errorDisplay;
 
     errorDisplay = document.getElementById('u2fError');
-    errorDisplay.innerText = error;
+    errorDisplay.innerText = u2fauth.errorTranslation[error];
     errorDisplay.onclick = callback;
 };
 
