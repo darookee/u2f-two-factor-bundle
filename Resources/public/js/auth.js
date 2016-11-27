@@ -1,4 +1,12 @@
-var ready = function(fn) {
+'use strict';
+
+var u2fauth = u2fauth || {};
+
+u2fauth.formId = 'u2fForm';
+u2fauth.authCodeId = '_auth_code';
+u2fauth.keynameId = 'u2fkeyname';
+
+u2fauth.ready = function(fn) {
     if ('loading' !== document.readyState){
         fn();
     } else if (document.addEventListener) {
@@ -11,29 +19,39 @@ var ready = function(fn) {
     }
 };
 
-var authenticate = function(request, codeField, form) {
-    u2f.sign(request[0]['appId'], request[0]['challenge'], request, function(data){
+u2fauth.authenticate = function() {
+    var form = document.getElementById(u2fauth.formId);
+    var codeField = document.getElementById(u2fauth.authCodeId);
+    var request = JSON.parse(form.dataset.request);
+
+    u2f.sign(request[0].appId, request[0].challenge, request, function(data){
         if(!data.errorCode) {
             codeField.value = JSON.stringify(data);
             form.submit();
         } else {
-            showError(data.errorCode, function(){authenticate(request, codeField, form);});
+            u2fauth.showError(data.errorCode, function(){u2fauth.authenticate(request, codeField, form);});
         }
     });
 };
 
-var register = function(request, codeField, form) {
-    u2f.register(request[0]['appId'], [request[0]], request[1], function(data){
+u2fauth.register = function() {
+    var keyname = document.getElementById(u2fauth.keynameId);
+    keyname.style.display = "none"; 
+    var form = document.getElementById(u2fauth.formId);
+    var codeField = document.getElementById(u2fauth.authCodeId);
+    var request = JSON.parse(form.dataset.request);
+
+    u2f.register(request[0].appId, [request[0]], request[1], function(data){
         if(!data.errorCode) {
             codeField.value = JSON.stringify(data);
             form.submit();
         } else {
-            showError(data.errorCode, function(){register(request, codeField, form);});
+            u2fauth.showError(data.errorCode, function(){u2fauth.register(request, codeField, form);});
         }
     });
 };
 
-var showError = function(error, callback) {
+u2fauth.showError = function(error, callback) {
     var errorDisplay;
 
     errorDisplay = document.getElementById('u2fError');
@@ -41,23 +59,11 @@ var showError = function(error, callback) {
     errorDisplay.onclick = callback;
 };
 
-ready(function(){
-    var form,
-        codeField,
-        request,
-        type;
-
-    form = document.getElementById('u2fForm');
-    codeField = document.getElementById('_auth_code');
-
-    type = form.dataset.action;
-    request = JSON.parse(form.dataset.request);
+u2fauth.ready(function(){
+    var form = document.getElementById('u2fForm');
+    var type = form.dataset.action;
 
     if('auth' === type) {
-        authenticate(request, codeField, form);
-    }
-
-    if('reg' === type) {
-        register(request, codeField, form);
+        u2fauth.authenticate();
     }
 });
