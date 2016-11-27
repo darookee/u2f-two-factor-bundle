@@ -3,8 +3,9 @@
         <input type="text" name="keyName" id="keyName" placeholder="Name your FIDO-Device"/>
         <input type="button" value="Register" onclick="u2fauth.register()" />
     </div>
+    <div id="u2fpressbutton" style="display: none;">Press Button on token</div>
     <input type="hidden" name="_auth_code" id="_auth_code" />
-    <div id="u2fError"></div>
+    <div id="u2fError" style="display: none;"></div>
 </form>
 <script src="/bundles/ru2ftwofactor/js/u2f-api.js"></script>
 <script src="/bundles/ru2ftwofactor/js/auth.js"></script>
