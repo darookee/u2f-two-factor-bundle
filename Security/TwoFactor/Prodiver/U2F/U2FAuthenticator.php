@@ -26,7 +26,8 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
         $scheme = $requestStack->getCurrentRequest()->getScheme();
         $host = $requestStack->getCurrentRequest()->getHost();
         $port = $requestStack->getCurrentRequest()->getPort();
-        $this->u2f = new \u2flib_server\U2F($scheme.'://'.$host.((80 !== $port && 443 !== $port)?':'.$port:''));
+        $intPort = (int) $port;
+        $this->u2f = new \u2flib_server\U2F($scheme.'://'.$host.((80 !== $intPort && 443 !== $intPort)?':'.$port:''));
     }
     /**
      * generateRequest
