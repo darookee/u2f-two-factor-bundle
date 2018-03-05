@@ -1,6 +1,6 @@
 <?php
 
-namespace R\U2FTwoFactorBundle\Security\TwoFactor\Prodiver\U2F;
+namespace R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F;
 
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContextInterface;
@@ -45,7 +45,6 @@ class TwoFactorProvider implements TwoFactorProviderInterface
      **/
     public function __construct(U2FAuthenticatorInterface $authenticator, EngineInterface $templating, $formTemplate, $authCodeParameter)
     {
-        @trigger_error('"Prodiver" was a typo. Please use the correct namespace "Provider" in the future.', E_USER_DEPRECATED);
         $this->authenticator = $authenticator;
         $this->templating = $templating;
         $this->formTemplate = $formTemplate;
