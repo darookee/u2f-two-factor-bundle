@@ -5,6 +5,7 @@ namespace R\U2FTwoFactorBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use R\U2FTwoFactorBundle\Event\RegisterEvent;
+use R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\U2FAuthenticator;
 
 /**
  * Class RegisterController
@@ -19,7 +20,7 @@ class RegisterController extends Controller
      **/
     public function u2fAction(Request $request)
     {
-        $u2fAuthenticator = $this->get('r_u2f_two_factor.authenticator');
+        $u2fAuthenticator = $this->get(U2FAuthenticator::class);
         if ($request->isMethod('POST')) {
             $registerData = json_decode($request->get('_auth_code'));
             $registrationRequest = json_decode($this->get('session')->get('u2f_registrationRequest'));
