@@ -1,6 +1,6 @@
 <?php
 
-namespace R\U2FTwoFactorBundle\Security\TwoFactor\Prodiver\U2F;
+namespace R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F;
 
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -23,7 +23,6 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
      **/
     public function __construct(RequestStack $requestStack)
     {
-        @trigger_error('"Prodiver" was a typo. Please use the correct namespace "Provider" in the future.', E_USER_DEPRECATED);
         $scheme = $requestStack->getCurrentRequest()->getScheme();
         $host = $requestStack->getCurrentRequest()->getHost();
         $port = $requestStack->getCurrentRequest()->getPort();
