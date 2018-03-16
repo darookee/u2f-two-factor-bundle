@@ -1,5 +1,6 @@
 services:
     R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\U2FAuthenticator:
+        public: true
         arguments:
             - '@request_stack'
     R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\TwoFactorProvider:
