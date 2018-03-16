@@ -4,9 +4,13 @@ namespace R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F;
 
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContextInterface;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorFormRendererInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class TwoFactorProvider
@@ -14,48 +18,44 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class TwoFactorProvider implements TwoFactorProviderInterface
 {
-
     /**
      * @var U2FAuthenticatorInterface
      **/
     protected $authenticator;
 
     /**
-     * @var EngineInterface
-     **/
-    protected $templating;
-
-    /**
-     * @var string
-     **/
-    protected $formTemplate;
+     * @var \Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorFormRendererInterface
+     */
+    private $formRenderer;
 
     /**
      * @var string
      **/
     protected $authCodeParameter;
 
+    private $session;
+
     /**
      * __construct
+     *
      * @param U2FAuthenticatorInterface $authenticator
-     * @param EngineInterface           $templating
-     * @param string                    $formTemplate
-     * @param string                    $authCodeParameter
-     * @return void
-     **/
-    public function __construct(U2FAuthenticatorInterface $authenticator, EngineInterface $templating, $formTemplate, $authCodeParameter)
+     * @param \Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorFormRendererInterface $formRenderer
+     * @param \Symfony\Component\HttpFoundation\Session\Session $session
+     */
+    public function __construct(U2FAuthenticatorInterface $authenticator, TwoFactorFormRendererInterface $formRenderer, Session $session)
     {
         $this->authenticator = $authenticator;
-        $this->templating = $templating;
-        $this->formTemplate = $formTemplate;
-        $this->authCodeParameter = $authCodeParameter;
+        $this->formRenderer = $formRenderer;
+
+        $this->session = $session;
     }
+
     /**
      * beginAuthentication
      * @param AuthenticationContextInterface $context
      * @return boolean
      **/
-    public function beginAuthentication(AuthenticationContextInterface $context)
+    public function beginAuthentication(AuthenticationContextInterface $context): bool
     {
         $user = $context->getUser();
 
@@ -63,37 +63,24 @@ class TwoFactorProvider implements TwoFactorProviderInterface
     }
 
     /**
-     * requestAuthenticationCode
-     * @param AuthenticationContextInterface $context
-     * @return \Symfony\Component\HttpFoundation\Response|null
-     **/
-    public function requestAuthenticationCode(AuthenticationContextInterface $context)
+     * @param mixed $user
+     * @param string $authenticationCode
+     *
+     * @return bool
+     */
+    public function validateAuthenticationCode($user, string $authenticationCode): bool
     {
-        $user = $context->getUser();
-        $request = $context->getRequest();
-        $session = $context->getSession();
-
-        $authData = $request->get($this->authCodeParameter);
-        if (null !== $authData) {
-            if ($this->authenticator->checkRequest(
-                $user,
-                json_decode($session->get('u2f_authentication')),
-                json_decode($authData)
-            )) {
-                $context->setAuthenticated(true);
-
-                return new RedirectResponse($request->getUri());
-            } else {
-                $session->getFlashBag()->set('two_factor', 'r_u2f_two_factor.code_invalid');
-            }
+        if (!($user instanceof TwoFactorInterface)) {
+            return false;
         }
 
-        $authenticationData = json_encode($this->authenticator->generateRequest($user), JSON_UNESCAPED_SLASHES);
-        $session->set('u2f_authentication', $authenticationData);
+        $request = json_decode($this->session->get('u2f_authentication'));
 
-        return $this->templating->renderResponse($this->formTemplate, array(
-            'authenticationData' => $authenticationData,
-            'useTrustedOption' => $context->useTrustedOption(),
-        ));
+        return $this->authenticator->checkRequest($user, $request, $authenticationCode);
+    }
+
+    public function getFormRenderer(): TwoFactorFormRendererInterface
+    {
+        return $this->formRenderer;
     }
 }

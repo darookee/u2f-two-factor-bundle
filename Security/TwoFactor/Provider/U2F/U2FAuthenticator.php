@@ -4,6 +4,7 @@ namespace R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F;
 
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use u2flib_server\U2F;
 
 /**
  * Class U2FAuthenticator
@@ -27,8 +28,9 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
         $host = $requestStack->getCurrentRequest()->getHost();
         $port = $requestStack->getCurrentRequest()->getPort();
         $intPort = (int) $port;
-        $this->u2f = new \u2flib_server\U2F($scheme.'://'.$host.((80 !== $intPort && 443 !== $intPort)?':'.$port:''));
+        $this->u2f = new U2F($scheme.'://'.$host.((80 !== $intPort && 443 !== $intPort)?':'.$port:''));
     }
+
     /**
      * generateRequest
      * @param AdvancedUserInterface $user
@@ -41,16 +43,22 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
 
     /**
      * checkRequest
+     *
      * @param AdvancedUserInterface $user
-     * @param mixed                 $request
-     * @param mixed                 $authData
-     * @return void
-     **/
+     * @param $request
+     * @param mixed $authData
+     *
+     * @return bool
+     */
     public function checkRequest(AdvancedUserInterface $user, $request, $authData)
     {
-        $reg = $this->u2f->doAuthenticate($request, $user->getU2FKeys()->toArray(), $authData);
+        $reg = $this->u2f->doAuthenticate($request, $user->getU2FKeys()->toArray(), json_decode($authData));
 
-        return $reg;
+        if ($reg) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

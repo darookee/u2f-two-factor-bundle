@@ -1,10 +1,10 @@
-<form class="form" action="" method="post" id="u2fForm" data-action="auth" data-request='{{ authenticationData|raw }}'>
+<form class="form" action="{{ path('2fa_login_check') }}" method="post" id="u2fForm" data-action="auth" data-request='{{ authenticationData|raw }}'>
     {% for flashMessage in app.session.flashbag.get('two_factor') %}
     <p class="error">{{ flashMessage|trans }}</p>
     {% endfor %}
     <div id="u2fpressbutton" style="display: none;">Press Button on token</div>
     <p class="widget"><input id="_auth_code" type="hidden" autocomplete="off" name="_auth_code" /></p>
-    {% if useTrustedOption %}<p class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="_trusted" /> {{ 'scheb_two_factor.trusted'|trans }}</label></p>{% endif %}
+    {% if displayTrustedOption %}<p class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="_trusted" /> {{ 'scheb_two_factor.trusted'|trans }}</label></p>{% endif %}
     <div id="u2fError"></div>
 </form>
 <script src="/bundles/ru2ftwofactor/js/u2f-api.js"></script>
