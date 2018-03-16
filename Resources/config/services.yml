@@ -1,12 +1,10 @@
 services:
-    r_u2f_two_factor.authenticator:
-        class: R\U2FTwoFactorBundle\Security\TwoFactor\Prodiver\U2F\U2FAuthenticator
+    R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\U2FAuthenticator:
         arguments:
             - '@request_stack'
-    r_u2f_two_factor.provider:
-        class: R\U2FTwoFactorBundle\Security\TwoFactor\Prodiver\U2F\TwoFactorProvider
+    R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\TwoFactorProvider:
         arguments:
-            - '@r_u2f_two_factor.authenticator'
+            - '@R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\U2FAuthenticator'
             - '@templating'
             - '%r_u2f_two_factor.formtemplate%'
             - '%r_u2f_two_factor.authcodeparameter%'
