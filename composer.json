@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "scheb/two-factor-bundle": "^2.0|^3.x-dev",
+        "scheb/two-factor-bundle": "^3.2.0",
         "yubico/u2flib-server": "^1.0.0"
     },
     "conflict": {
