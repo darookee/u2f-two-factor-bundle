@@ -2,7 +2,7 @@
     {% for flashMessage in app.session.flashbag.get('two_factor') %}
     <p class="error">{{ flashMessage|trans }}</p>
     {% endfor %}
-    <div id="u2fpressbutton" style="display: none;">Press Button on token</div>
+    <div id="u2fpressbutton" style="display: none;">{{ 'ru2_f_two_factor.pressbutton'|trans }}</div>
     <p class="widget"><input id="_auth_code" type="hidden" autocomplete="off" name="_auth_code" /></p>
     {% if displayTrustedOption %}<p class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="_trusted" /> {{ 'scheb_two_factor.trusted'|trans }}</label></p>{% endif %}
     <div id="u2fError"></div>
