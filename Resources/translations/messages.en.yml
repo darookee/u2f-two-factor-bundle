@@ -1,2 +1,4 @@
 ru2_f_two_factor:
     pressbutton: Press Button on token
+    name: Name your FIDO-Device
+    register: Register

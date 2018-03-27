@@ -1,11 +1,1 @@
-<form method="post" action="{{ path('club_base_register_u2f') }}" id="u2fForm" data-action="reg" data-request='{{ registrationRequest|raw }}'>
-    <div id="u2fkeyname">
-        <input type="text" name="keyName" id="keyName" placeholder="Name your FIDO-Device"/>
-        <input type="button" value="Register" onclick="u2fauth.register()" />
-    </div>
-    <div id="u2fpressbutton" style="display: none;">{{ 'ru2_f_two_factor.pressbutton'|trans }}</div>
-    <input type="hidden" name="_auth_code" id="_auth_code" />
-    <div id="u2fError" style="display: none;"></div>
-</form>
-<script src="/bundles/ru2ftwofactor/js/u2f-api.js"></script>
-<script src="/bundles/ru2ftwofactor/js/auth.js"></script>
+{% include 'register_content.html.twig' %}
