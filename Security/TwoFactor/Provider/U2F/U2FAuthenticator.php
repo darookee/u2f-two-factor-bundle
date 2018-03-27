@@ -45,14 +45,14 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
      * checkRequest
      *
      * @param AdvancedUserInterface $user
-     * @param $request
+     * @param array $requests
      * @param mixed $authData
      *
      * @return bool
      */
-    public function checkRequest(AdvancedUserInterface $user, $request, $authData)
+    public function checkRequest(AdvancedUserInterface $user, $requests, $authData)
     {
-        $reg = $this->u2f->doAuthenticate($request, $user->getU2FKeys()->toArray(), json_decode($authData));
+        $reg = $this->u2f->doAuthenticate($requests, $user->getU2FKeys()->toArray(), json_decode($authData));
 
         if ($reg) {
             return true;

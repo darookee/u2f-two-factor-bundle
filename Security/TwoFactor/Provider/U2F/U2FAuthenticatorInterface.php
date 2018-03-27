@@ -20,9 +20,9 @@ interface U2FAuthenticatorInterface
     /**
      * checkRequest
      * @param AdvancedUserInterface $user
-     * @param mixed                 $request
+     * @param array                 $requests
      * @param mixed                 $authData
      * @return boolean
      **/
-    public function checkRequest(AdvancedUserInterface $user, $request, $authData);
+    public function checkRequest(AdvancedUserInterface $user, array $requests, $authData);
 }

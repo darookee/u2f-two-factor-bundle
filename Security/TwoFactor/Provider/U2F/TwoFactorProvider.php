@@ -70,9 +70,9 @@ class TwoFactorProvider implements TwoFactorProviderInterface
             return false;
         }
 
-        $request = json_decode($this->session->get('u2f_authentication'));
+        $requests = json_decode($this->session->get('u2f_authentication'));
 
-        return $this->authenticator->checkRequest($user, $request, $authenticationCode);
+        return $this->authenticator->checkRequest($user, $requests, $authenticationCode);
     }
 
     public function getFormRenderer(): TwoFactorFormRendererInterface
