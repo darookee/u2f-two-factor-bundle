@@ -12,7 +12,7 @@ u2fauth.errorTranslation = {
     2: 'Bad Request',
     3: 'Client configuration not supported',
     4: 'Device already registered or ineligible',
-    5: 'Timeout',
+    5: 'Timeout. Click to retry',
 };
 
 u2fauth.ready = function(fn) {
