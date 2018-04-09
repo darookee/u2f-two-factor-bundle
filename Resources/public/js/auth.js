@@ -125,12 +125,10 @@ u2fauth.ready(function () {
 
   if (type === 'auth') {
     u2fauth.authenticate()
-  } else if (type === 'reg') {
-    if (form.addEventListener) {
-      form.addEventListener('submit', function (event) {
-        event.preventDefault()
-        u2fauth.register()
-      }, false)
-    }
+  } else if (type === 'reg' && form.addEventListener) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault()
+      u2fauth.register()
+    }, false)
   }
 })
