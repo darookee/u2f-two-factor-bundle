@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "u2f-api": "grantila/u2f-api"
+  }
+}

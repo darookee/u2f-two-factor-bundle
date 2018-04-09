@@ -255,6 +255,12 @@ r_u2f:
 The Keys can be registered visiting `/u2f_register`. It needs to be served as
 https!
 
+### Step 4: Include Javascript file
+
+If you're using Webpack, include this line in your `webpack.config.js`:
+
+    .addEntry('ru2ftwofactor', './web/bundles/ru2ftwofactor/js/auth.js')
+
 ## License
 
 This bundle is available under the [MIT license](LICENSE).
