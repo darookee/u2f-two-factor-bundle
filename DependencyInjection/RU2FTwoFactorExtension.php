@@ -22,7 +22,7 @@ class RU2FTwoFactorExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('r_u2f_two_factor.formtemplate', $config['formTemplate']);
+        $container->setParameter('r_u2f_two_factor.formTemplate', $config['formTemplate']);
         $container->setParameter('r_u2f_two_factor.registertemplate', $config['registerTemplate']);
         $container->setParameter('r_u2f_two_factor.authcodeparameter', $config['authCodeParameter']);
 
