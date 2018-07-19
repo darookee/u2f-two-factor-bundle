@@ -2,7 +2,7 @@
 
 namespace R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F;
 
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use u2flib_server\U2F;
 
@@ -33,10 +33,10 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
 
     /**
      * generateRequest
-     * @param AdvancedUserInterface $user
+     * @param UserInterface $user
      * @return string
      **/
-    public function generateRequest(AdvancedUserInterface $user)
+    public function generateRequest(UserInterface $user)
     {
         return $this->u2f->getAuthenticateData($user->getU2FKeys()->toArray());
     }
@@ -44,13 +44,13 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
     /**
      * checkRequest
      *
-     * @param AdvancedUserInterface $user
+     * @param UserInterface $user
      * @param array $requests
      * @param mixed $authData
      *
      * @return bool
      */
-    public function checkRequest(AdvancedUserInterface $user, array $requests, $authData)
+    public function checkRequest(UserInterface $user, array $requests, $authData)
     {
         $reg = $this->u2f->doAuthenticate($requests, $user->getU2FKeys()->toArray(), json_decode($authData));
 
@@ -63,10 +63,10 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
 
     /**
      * generateRegistrationRequest
-     * @param AdvancedUserInterface $user
+     * @param UserInterface $user
      * @return string
      **/
-    public function generateRegistrationRequest(AdvancedUserInterface $user)
+    public function generateRegistrationRequest(UserInterface $user)
     {
         return $this->u2f->getRegisterData($user->getU2FKeys()->toArray());
     }
