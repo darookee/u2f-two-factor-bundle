@@ -2,16 +2,16 @@
 
 namespace R\U2FTwoFactorBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use R\U2FTwoFactorBundle\Event\RegisterEvent;
 use R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\U2FAuthenticator;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class RegisterController
  * @author Nils Uliczka
  */
-class RegisterController extends Controller
+class RegisterController extends AbstractController
 {
     /**
      * u2fAction
