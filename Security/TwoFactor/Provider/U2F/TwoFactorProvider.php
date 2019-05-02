@@ -9,7 +9,6 @@ use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorProviderInterface
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
- * Class TwoFactorProvider
  * @author Nils Uliczka
  */
 class TwoFactorProvider implements TwoFactorProviderInterface
@@ -48,7 +47,7 @@ class TwoFactorProvider implements TwoFactorProviderInterface
     {
         $user = $context->getUser();
 
-        return ($user instanceof TwoFactorInterface && $user->isU2FAuthEnabled());
+        return $user instanceof TwoFactorInterface && $user->isU2FAuthEnabled();
     }
 
     /**

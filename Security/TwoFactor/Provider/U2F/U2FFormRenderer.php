@@ -45,6 +45,7 @@ class U2FFormRenderer implements TwoFactorFormRendererInterface
         $content = $this->twigEnvironment->render($this->template, $templateVars);
         $response = new Response();
         $response->setContent($content);
+
         return $response;
     }
 }

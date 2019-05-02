@@ -10,7 +10,6 @@ use u2flib_server\Registration;
 use u2flib_server\U2F;
 
 /**
- * Class U2FAuthenticator
  * @author Nils Uliczka
  */
 class U2FAuthenticator implements U2FAuthenticatorInterface
@@ -26,7 +25,7 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
         $host = $requestStack->getCurrentRequest()->getHost();
         $port = $requestStack->getCurrentRequest()->getPort();
         $intPort = (int) $port;
-        $this->u2f = new U2F($scheme.'://'.$host.((80 !== $intPort && 443 !== $intPort)?':'.$port:''));
+        $this->u2f = new U2F($scheme.'://'.$host.((80 !== $intPort && 443 !== $intPort) ? ':'.$port : ''));
     }
 
     /**
@@ -54,7 +53,7 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
         return false;
     }
 
-    public function generateRegistrationRequest(UserInterface $user) : array
+    public function generateRegistrationRequest(UserInterface $user): array
     {
         return $this->u2f->getRegisterData($user->getU2FKeys()->toArray());
     }
@@ -63,7 +62,7 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
      * @param string $regRequest
      * @param string $registration
      **/
-    public function doRegistration($regRequest, $registration) : Registration
+    public function doRegistration($regRequest, $registration): Registration
     {
         return $this->u2f->doRegister($regRequest, $registration);
     }

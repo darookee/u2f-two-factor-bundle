@@ -8,15 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class RegisterController
  * @author Nils Uliczka
  */
 class RegisterController extends AbstractController
 {
     /**
-     * u2fAction
      * @param Request $request
-     * @return void
      **/
     public function u2fAction(Request $request)
     {

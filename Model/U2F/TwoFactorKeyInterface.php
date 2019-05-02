@@ -3,21 +3,18 @@
 namespace R\U2FTwoFactorBundle\Model\U2F;
 
 /**
- * Interface KeyInterface
+ * Interface KeyInterface.
+ *
  * @author Nils Uliczka
  */
 interface TwoFactorKeyInterface
 {
     /**
-     * getKeyHandle
-     *
      * @return mixed
      */
     public function getKeyHandle();
 
     /**
-     * setKeyHandle
-     *
      * @param mixed $keyHandle
      *
      * @return $this
@@ -25,15 +22,11 @@ interface TwoFactorKeyInterface
     public function setKeyHandle($keyHandle);
 
     /**
-     * getpublicKey
-     *
      * @return mixed
      */
     public function getPublicKey();
 
     /**
-     * setPublicKey
-     *
      * @param mixed $publicKey
      *
      * @return $this
@@ -41,15 +34,11 @@ interface TwoFactorKeyInterface
     public function setPublicKey($publicKey);
 
     /**
-     * getCertificate
-     *
      * @return mixed
      */
     public function getCertificate();
 
     /**
-     * setCertificate
-     *
      * @param mixed $certificate
      *
      * @return $this
@@ -57,15 +46,11 @@ interface TwoFactorKeyInterface
     public function setCertificate($certificate);
 
     /**
-     * getCounter
-     *
      * @return mixed
      */
     public function getCounter();
 
     /**
-     * setCounter
-     *
      * @param mixed $counter
      *
      * @return $this
@@ -73,14 +58,13 @@ interface TwoFactorKeyInterface
     public function setCounter($counter);
 
     /**
-     * getName
      * @return string
      **/
     public function getName();
 
     /**
-     * setName
      * @param string $name
+     *
      * @return $this
      **/
     public function setName($name);

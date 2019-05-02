@@ -123,7 +123,6 @@ Here is an example using doctrine.
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorKeyInterface;
 
 /**
- * Class U2FKey
  * @ORM\Entity
  * @ORM\Table(name="u2f_keys",
  * uniqueConstraints={@ORM\UniqueConstraint(name="user_unique",columns={"user_id",
