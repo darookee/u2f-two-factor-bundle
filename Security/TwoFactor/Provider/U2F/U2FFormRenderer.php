@@ -36,7 +36,7 @@ class U2FFormRenderer implements TwoFactorFormRendererInterface
     {
         $user = $this->token->getUser();
 
-        $authenticationData = json_encode($this->authenticator->generateRequest($user), JSON_UNESCAPED_SLASHES);
+        $authenticationData = $this->authenticator->generateRequest($user);
 
         $templateVars['authenticationData'] = $authenticationData;
 

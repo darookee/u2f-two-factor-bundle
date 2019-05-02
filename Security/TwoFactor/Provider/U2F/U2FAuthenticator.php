@@ -2,8 +2,11 @@
 
 namespace R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F;
 
+use function json_encode;
+use const JSON_UNESCAPED_SLASHES;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use u2flib_server\Registration;
 use u2flib_server\U2F;
 
 /**
@@ -17,11 +20,6 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
      **/
     protected $u2f;
 
-    /**
-     * __construct
-     * @param RequestStack $requestStack
-     * @return void
-     **/
     public function __construct(RequestStack $requestStack)
     {
         $scheme = $requestStack->getCurrentRequest()->getScheme();
@@ -32,19 +30,14 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
     }
 
     /**
-     * generateRequest
-     * @param UserInterface $user
      * @return string
      **/
     public function generateRequest(UserInterface $user)
     {
-        return $this->u2f->getAuthenticateData($user->getU2FKeys()->toArray());
+        return json_encode($this->u2f->getAuthenticateData($user->getU2FKeys()->toArray()), JSON_UNESCAPED_SLASHES);
     }
 
     /**
-     * checkRequest
-     *
-     * @param UserInterface $user
      * @param array $requests
      * @param mixed $authData
      *
@@ -61,23 +54,16 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
         return false;
     }
 
-    /**
-     * generateRegistrationRequest
-     * @param UserInterface $user
-     * @return string
-     **/
-    public function generateRegistrationRequest(UserInterface $user)
+    public function generateRegistrationRequest(UserInterface $user) : array
     {
         return $this->u2f->getRegisterData($user->getU2FKeys()->toArray());
     }
 
     /**
-     * doRegistration
      * @param string $regRequest
      * @param string $registration
-     * @return void
      **/
-    public function doRegistration($regRequest, $registration)
+    public function doRegistration($regRequest, $registration) : Registration
     {
         return $this->u2f->doRegister($regRequest, $registration);
     }
