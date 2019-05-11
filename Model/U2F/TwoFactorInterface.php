@@ -2,9 +2,6 @@
 
 namespace R\U2FTwoFactorBundle\Model\U2F;
 
-/**
- * Interface: TwoFactorInterface.
- */
 interface TwoFactorInterface
 {
     /**

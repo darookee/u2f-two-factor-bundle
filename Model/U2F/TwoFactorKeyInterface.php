@@ -3,8 +3,6 @@
 namespace R\U2FTwoFactorBundle\Model\U2F;
 
 /**
- * Interface KeyInterface.
- *
  * @author Nils Uliczka
  */
 interface TwoFactorKeyInterface
