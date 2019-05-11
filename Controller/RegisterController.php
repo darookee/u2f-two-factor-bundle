@@ -6,16 +6,14 @@ use R\U2FTwoFactorBundle\Event\RegisterEvent;
 use R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\U2FAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Nils Uliczka
  */
 class RegisterController extends AbstractController
 {
-    /**
-     * @param Request $request
-     **/
-    public function u2fAction(Request $request)
+    public function u2fAction(Request $request) : Response
     {
         $u2fAuthenticator = $this->get(U2FAuthenticator::class);
         if ($request->isMethod('POST')) {
