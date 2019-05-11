@@ -49,61 +49,41 @@ For the Authentication to work you User has to implement `R\U2FTwoFactorBundle\M
 <?php
 
 // ...
+use Doctrine\Common\Collections\Collection;
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface as U2FTwoFactorInterface;
+use R\U2FTwoFactorBundle\Model\U2F\TwoFactorKeyInterface;
 // ...
 class User implements U2FTwoFactorInterface
 {
 // ...
     /**
      * @ORM\OneToMany(targetEntity="Club\BaseBundle\Entity\U2FKey", mappedBy="user")
-     * @var ArrayCollection
+     * @var Collection
      **/
     protected $u2fKeys;
 
-    /**
-     * isU2FAuthEnabled
-     * @return boolean
-     **/
-    public function isU2FAuthEnabled()
+    public function isU2FAuthEnabled(): bool
     {
         // If the User has Keys associated, use U2F
         // You may use a different logic here
         return count($this->u2fKeys) > 0;
     }
 
-    /**
-     * getU2FKeys
-     * @return ArrayCollection
-     **/
-    public function getU2FKeys()
+    public function getU2FKeys(): Collection
     {
         return $this->u2fKeys;
     }
 
-    /**
-     * addU2FKey
-     * @param U2FKey $key
-     * @return void
-     **/
-    public function addU2FKey($key)
+    public function addU2FKey(TwoFactorKeyInterface $key)
     {
         $this->u2fKeys->add($key);
     }
-    
-    /**
-     * removeU2FKey
-     * @param U2FKey $key
-     * @return void
-     **/
-    public function removeU2FKey($key)
+
+    public function removeU2FKey(TwoFactorKeyInterface $key)
     {
         $this->u2fKeys->remove($key);
     }
 
-    /**
-     * __construct
-     * @return void
-     **/
     public function __construct()
     {
         // ...

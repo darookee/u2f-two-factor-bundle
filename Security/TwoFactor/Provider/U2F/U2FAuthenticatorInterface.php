@@ -2,26 +2,18 @@
 
 namespace R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F;
 
-use Symfony\Component\Security\Core\User\UserInterface;
+use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface;
 
 /**
  * @author Nils Uliczka
  */
 interface U2FAuthenticatorInterface
 {
-    /**
-     * @param UserInterface $user
-     *
-     * @return string
-     **/
-    public function generateRequest(UserInterface $user);
+    public function generateRequest(TwoFactorInterface $user): string;
 
     /**
-     * @param UserInterface $user
      * @param array         $requests
      * @param mixed         $authData
-     *
-     * @return bool
      **/
-    public function checkRequest(UserInterface $user, array $requests, $authData);
+    public function checkRequest(TwoFactorInterface $user, array $requests, $authData): bool;
 }

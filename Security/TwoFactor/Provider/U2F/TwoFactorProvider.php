@@ -19,7 +19,7 @@ class TwoFactorProvider implements TwoFactorProviderInterface
     protected $authenticator;
 
     /**
-     * @var \Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorFormRendererInterface
+     * @var TwoFactorFormRendererInterface
      */
     private $formRenderer;
 

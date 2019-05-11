@@ -4,7 +4,7 @@ namespace R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F;
 
 use function json_encode;
 use const JSON_UNESCAPED_SLASHES;
-use Symfony\Component\Security\Core\User\UserInterface;
+use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use u2flib_server\Registration;
 use u2flib_server\U2F;
@@ -28,10 +28,7 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
         $this->u2f = new U2F($scheme.'://'.$host.((80 !== $intPort && 443 !== $intPort) ? ':'.$port : ''));
     }
 
-    /**
-     * @return string
-     **/
-    public function generateRequest(UserInterface $user)
+    public function generateRequest(TwoFactorInterface $user): string
     {
         return json_encode($this->u2f->getAuthenticateData($user->getU2FKeys()->toArray()), JSON_UNESCAPED_SLASHES);
     }
@@ -39,10 +36,8 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
     /**
      * @param array $requests
      * @param mixed $authData
-     *
-     * @return bool
      */
-    public function checkRequest(UserInterface $user, array $requests, $authData)
+    public function checkRequest(TwoFactorInterface $user, array $requests, $authData): bool
     {
         $reg = $this->u2f->doAuthenticate($requests, $user->getU2FKeys()->toArray(), json_decode($authData));
 
@@ -53,7 +48,7 @@ class U2FAuthenticator implements U2FAuthenticatorInterface
         return false;
     }
 
-    public function generateRegistrationRequest(UserInterface $user): array
+    public function generateRegistrationRequest(TwoFactorInterface $user): array
     {
         return $this->u2f->getRegisterData($user->getU2FKeys()->toArray());
     }
