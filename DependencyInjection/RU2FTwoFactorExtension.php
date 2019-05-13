@@ -23,8 +23,8 @@ class RU2FTwoFactorExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('r_u2f_two_factor.formTemplate', $config['formTemplate']);
-        $container->setParameter('r_u2f_two_factor.registertemplate', $config['registerTemplate']);
-        $container->setParameter('r_u2f_two_factor.authcodeparameter', $config['authCodeParameter']);
+        $container->setParameter('r_u2f_two_factor.registerTemplate', $config['registerTemplate']);
+        $container->setParameter('r_u2f_two_factor.authCodeParameter', $config['authCodeParameter']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
