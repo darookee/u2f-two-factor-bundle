@@ -9,7 +9,6 @@ use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorProviderInterface
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
- * Class TwoFactorProvider
  * @author Nils Uliczka
  */
 class TwoFactorProvider implements TwoFactorProviderInterface
@@ -20,7 +19,7 @@ class TwoFactorProvider implements TwoFactorProviderInterface
     protected $authenticator;
 
     /**
-     * @var \Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorFormRendererInterface
+     * @var TwoFactorFormRendererInterface
      */
     private $formRenderer;
 
@@ -31,13 +30,6 @@ class TwoFactorProvider implements TwoFactorProviderInterface
 
     private $session;
 
-    /**
-     * __construct
-     *
-     * @param U2FAuthenticatorInterface $authenticator
-     * @param \Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorFormRendererInterface $formRenderer
-     * @param \Symfony\Component\HttpFoundation\Session\Session $session
-     */
     public function __construct(U2FAuthenticatorInterface $authenticator, TwoFactorFormRendererInterface $formRenderer, Session $session)
     {
         $this->authenticator = $authenticator;
@@ -46,23 +38,20 @@ class TwoFactorProvider implements TwoFactorProviderInterface
         $this->session = $session;
     }
 
-    /**
-     * beginAuthentication
-     * @param AuthenticationContextInterface $context
-     * @return boolean
-     **/
+    public function prepareAuthentication($user): void
+    {
+        return null;
+    }
+
     public function beginAuthentication(AuthenticationContextInterface $context): bool
     {
         $user = $context->getUser();
 
-        return ($user instanceof TwoFactorInterface && $user->isU2FAuthEnabled());
+        return $user instanceof TwoFactorInterface && $user->isU2FAuthEnabled();
     }
 
     /**
      * @param mixed $user
-     * @param string $authenticationCode
-     *
-     * @return bool
      */
     public function validateAuthenticationCode($user, string $authenticationCode): bool
     {

@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Twig\Environment;
 
 class U2FFormRenderer implements TwoFactorFormRendererInterface
@@ -21,7 +22,14 @@ class U2FFormRenderer implements TwoFactorFormRendererInterface
     private $template;
 
     private $authenticator;
+    /**
+     * @var TokenInterface|null
+     */
     private $token;
+    /**
+     * @var Session
+     */
+    private $session;
 
     public function __construct(Environment $twigRenderer, string $template, U2FAuthenticator $authenticator, TokenStorageInterface $tokenStorage, Session $session)
     {
@@ -36,7 +44,7 @@ class U2FFormRenderer implements TwoFactorFormRendererInterface
     {
         $user = $this->token->getUser();
 
-        $authenticationData = json_encode($this->authenticator->generateRequest($user), JSON_UNESCAPED_SLASHES);
+        $authenticationData = $this->authenticator->generateRequest($user);
 
         $templateVars['authenticationData'] = $authenticationData;
 
@@ -45,6 +53,7 @@ class U2FFormRenderer implements TwoFactorFormRendererInterface
         $content = $this->twigEnvironment->render($this->template, $templateVars);
         $response = new Response();
         $response->setContent($content);
+
         return $response;
     }
 }
