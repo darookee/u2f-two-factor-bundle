@@ -4,106 +4,65 @@ namespace R\U2FTwoFactorBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Response;
+use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface;
+use u2flib_server\Registration;
 
 /**
  * @author Nils Uliczka
  */
 class RegisterEvent extends Event
 {
-    /**
-     * @var array
-     **/
+    /** @var Registration **/
     protected $registration;
-
-    /**
-     * @var User
-     **/
+    /** @var TwoFactorInterface **/
     protected $user;
-
-    /**
-     * @var string
-     **/
+    /** @var string **/
     protected $keyName;
-
-    /**
-     * @var Response
-     **/
+    /** @var Response **/
     protected $response;
 
-    /**
-     * @param array  $registration
-     * @param User   $user
-     * @param string $name
-     **/
-    public function __construct($registration, $user, $name)
+    public function __construct(Registration $registration, TwoFactorInterface $user, string $name)
     {
         $this->registration = $registration;
         $this->user = $user;
         $this->keyName = $name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRegistration()
+    public function getRegistration(): Registration
     {
         return $this->registration;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUser()
+    public function getUser(): TwoFactorInterface
     {
         return $this->user;
     }
 
-    /**
-     * @param mixed $user
-     *
-     * @return $this
-     */
-    public function setUser($user)
+    public function setUser(TwoFactorInterface $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getResponse()
+    public function getResponse(): Response
     {
         return $this->response;
     }
 
-    /**
-     * @param mixed $response
-     *
-     * @return $this
-     */
-    public function setResponse($response)
+    public function setResponse(Response $response): self
     {
         $this->response = $response;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getKeyName()
+    public function getKeyName(): string
     {
         return $this->keyName;
     }
 
-    /**
-     * @param mixed $keyName
-     *
-     * @return $this
-     */
-    public function setKeyName($keyName)
+    public function setKeyName(string $keyName): self
     {
         $this->keyName = $keyName;
 

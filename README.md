@@ -11,7 +11,7 @@ This Symfony2 bundle provides u2f authentication for your website using
 php composer.phar require r/u2f-two-factor-bundle
 ```
 
-### Step 2: Enable the bundles
+### Step 2: Enable the bundles (skip when using Symfony Flex)
 
 Add this to you `app/AppKernel.php`:
 
@@ -52,13 +52,14 @@ For the Authentication to work you User has to implement `R\U2FTwoFactorBundle\M
 use Doctrine\Common\Collections\Collection;
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface as U2FTwoFactorInterface;
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorKeyInterface;
+use Club\BaseBundle\Entity\U2FKey;
 // ...
 class User implements U2FTwoFactorInterface
 {
 // ...
     /**
-     * @ORM\OneToMany(targetEntity="Club\BaseBundle\Entity\U2FKey", mappedBy="user")
-     * @var Collection
+     * @ORM\OneToMany(targetEntity=U2FKey::class, mappedBy="user")
+     * @var Collection<TwoFactorKeyInterface>
      **/
     protected $u2fKeys;
 
@@ -69,17 +70,18 @@ class User implements U2FTwoFactorInterface
         return count($this->u2fKeys) > 0;
     }
 
+    /** @return Collection<TwoFactorKeyInterface> **/
     public function getU2FKeys(): Collection
     {
         return $this->u2fKeys;
     }
 
-    public function addU2FKey(TwoFactorKeyInterface $key)
+    public function addU2FKey(TwoFactorKeyInterface $key): void
     {
         $this->u2fKeys->add($key);
     }
 
-    public function removeU2FKey(TwoFactorKeyInterface $key)
+    public function removeU2FKey(TwoFactorKeyInterface $key): void
     {
         $this->u2fKeys->remove($key);
     }
@@ -101,6 +103,7 @@ Here is an example using doctrine.
 <?php
 // ...
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorKeyInterface;
+use u2flib_server\Registration;
 
 /**
  * @ORM\Entity
@@ -121,25 +124,25 @@ class U2FKey implements TwoFactorKeyInterface
      * @ORM\Column(type="string")
      * @var string
      **/
-    public $keyHandle;
+    protected $keyHandle;
 
     /**
      * @ORM\Column(type="string")
      * @var string
      **/
-    public $publicKey;
+    protected $publicKey;
 
     /**
      * @ORM\Column(type="text")
      * @var string
      **/
-    public $certificate;
+    protected $certificate;
 
     /**
      * @ORM\Column(type="string")
      * @var int
      **/
-    public $counter;
+    protected $counter;
 
     /**
      * @ORM\ManyToOne(targetEntity="AcmeBundle\Entity\User", inversedBy="u2fKeys")
@@ -154,18 +157,79 @@ class U2FKey implements TwoFactorKeyInterface
     protected $name;
 
     // ...
-    
-    public function fromRegistrationData($data)
+
+    public function fromRegistrationData(Registration $data): void
     {
         $this->keyHandle = $data->keyHandle;
         $this->publicKey = $data->publicKey;
         $this->certificate = $data->certificate;
         $this->counter = $data->counter;
     }
+
+    /** @inheritDoc */
+    public function getKeyHandle()
+    {
+        return $this->keyHandle;
+    }
+
+    /** @inheritDoc */
+    public function setKeyHandle($keyHandle)
+    {
+        $this->keyHandle = $keyHandle;
+    }
+
+    /** @inheritDoc */
+    public function getPublicKey()
+    {
+        return $this->publicKey;
+    }
+
+    /** @inheritDoc */
+    public function setPublicKey($publicKey)
+    {
+        $this->publicKey = $publicKey;
+    }
+
+    /** @inheritDoc */
+    public function getCertificate()
+    {
+        return $this->certificate;
+    }
+
+
+    /** @inheritDoc */
+    public function setCertificate($certificate)
+    {
+        $this->certificate = $certificate;
+    }
+
+    /** @inheritDoc */
+    public function getCounter()
+    {
+        return $this->counter;
+    }
+
+    /** @inheritDoc */
+    public function setCounter($counter)
+    {
+        $this->counter = $counter;
+    }
+
+    /** @inheritDoc */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /** @inheritDoc */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 }
 ```
 
-Then you need to create an eventlistener to get and store the data of the
+Then you need to create an event subscriber to get and store the data of the
 registered key.
 
 ```php
@@ -175,32 +239,34 @@ use AcmeBundle\Entity\U2FKey;
 use R\U2FTwoFactorBundle\Event\RegisterEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class U2FRegistrationListener implements EventSubscriberInterface
+class U2FRegistrationSubscriber implements EventSubscriberInterface
 {
+    /** @var UrlGeneratorInterface */
+    private $router;
+
+    public function __construct(UrlGeneratorInterface $router)
+    {
+        $this->router = $router;
+    }
+
     // ..
-    /**
-     * getSubscribedEvents
-     * @return array
-     **/
-    public static function getSubscribedEvents()
+
+    /** @return string[] **/
+    public static function getSubscribedEvents(): array
     {
         return array(
             'r_u2f_two_factor.register' => 'onRegister',
         );
     }
 
-    /**
-     * onRegister
-     * @param RegisterEvent $event
-     * @return void
-     **/
-    public function onRegister(RegisterEvent $event)
+    public function onRegister(RegisterEvent $event): void
     {
         $user = $event->getUser($event);
-        $registrationData = $event->getRegistration();
+        $registration = $event->getRegistration();
         $newKey = new U2FKey();
-        $newKey->fromRegistrationData($registrationData);
+        $newKey->fromRegistrationData($registration);
         $newKey->setUser($user);
         $newKey->setName($event->getKeyName());
 
@@ -212,15 +278,6 @@ class U2FRegistrationListener implements EventSubscriberInterface
         $event->setResponse($response);
     }
 }
-```
-
-Add it to your `services.yml`:
-
-```yaml
-acme.u2f_listener:
-    class: AcmeBundle\EventListener\U2FRegistrationListener
-    tags:
-        - { name: kernel.event_subscriber }
 ```
 
 Also add routing definitions to your `app/config/routing.yml`
