@@ -3,9 +3,9 @@
 namespace R\U2FTwoFactorBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class RegisterEvent
  * @author Nils Uliczka
  */
 class RegisterEvent extends Event
@@ -31,11 +31,9 @@ class RegisterEvent extends Event
     protected $response;
 
     /**
-     * __construct
      * @param array  $registration
      * @param User   $user
      * @param string $name
-     * @return void
      **/
     public function __construct($registration, $user, $name)
     {
@@ -45,8 +43,6 @@ class RegisterEvent extends Event
     }
 
     /**
-     * getRegistration
-     *
      * @return mixed
      */
     public function getRegistration()
@@ -55,8 +51,6 @@ class RegisterEvent extends Event
     }
 
     /**
-     * getUser
-     *
      * @return mixed
      */
     public function getUser()
@@ -65,8 +59,6 @@ class RegisterEvent extends Event
     }
 
     /**
-     * setUser
-     *
      * @param mixed $user
      *
      * @return $this
@@ -79,8 +71,6 @@ class RegisterEvent extends Event
     }
 
     /**
-     * getResponse
-     *
      * @return mixed
      */
     public function getResponse()
@@ -89,8 +79,6 @@ class RegisterEvent extends Event
     }
 
     /**
-     * setResponse
-     *
      * @param mixed $response
      *
      * @return $this
@@ -103,8 +91,6 @@ class RegisterEvent extends Event
     }
 
     /**
-     * getKeyName
-     *
      * @return mixed
      */
     public function getKeyName()
@@ -113,8 +99,6 @@ class RegisterEvent extends Event
     }
 
     /**
-     * setKeyName
-     *
      * @param mixed $keyName
      *
      * @return $this

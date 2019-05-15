@@ -2,36 +2,15 @@
 
 namespace R\U2FTwoFactorBundle\Model\U2F;
 
-/**
- * Interface: TwoFactorInterface
- *
- */
+use Doctrine\Common\Collections\Collection;
+
 interface TwoFactorInterface
 {
+    public function isU2FAuthEnabled(): bool;
 
-    /**
-     * isU2FAuthEnabled
-     * @return boolean
-     **/
-    public function isU2FAuthEnabled();
+    public function getU2FKeys(): Collection;
 
-    /**
-     * getU2FKeys
-     * @return array
-     **/
-    public function getU2FKeys();
+    public function addU2FKey(TwoFactorKeyInterface $key);
 
-    /**
-     * addU2FKey
-     * @param U2FKey $key
-     * @return void
-     **/
-    public function addU2FKey($key);
-
-    /**
-     * removeU2FKey
-     * @param U2FKey $key
-     * @return void
-     **/
-    public function removeU2FKey($key);
+    public function removeU2FKey(TwoFactorKeyInterface $key);
 }
