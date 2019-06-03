@@ -37,7 +37,7 @@ public function registerBundles()
 These options are available but not required:
 
 ```yaml
-ru2_f_two_factor:
+r_u2f_two_factor:
     formTemplate: RU2FTwoFactorBundle:Authentication:form.html.twig
     registerTemplate: RU2FTwoFactorBundle:Registration:register.html.twig
     authCodeParameter: _auth_code
