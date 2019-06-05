@@ -18,6 +18,7 @@ services:
             - '@security.token_storage'
             - '@session'
     R\U2FTwoFactorBundle\Controller\RegisterController:
+        tags: ['controller.service_arguments']
         arguments:
             $u2fAuthenticator: '@R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\U2FAuthenticator'
             $session: '@session'
