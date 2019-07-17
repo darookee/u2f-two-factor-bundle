@@ -38,11 +38,13 @@ class TwoFactorProvider implements TwoFactorProviderInterface
         $this->session = $session;
     }
 
+    /** @inheritDoc */
     public function prepareAuthentication($user): void
     {
         return;
     }
 
+    /** @inheritDoc */
     public function beginAuthentication(AuthenticationContextInterface $context): bool
     {
         $user = $context->getUser();
@@ -50,9 +52,7 @@ class TwoFactorProvider implements TwoFactorProviderInterface
         return $user instanceof TwoFactorInterface && $user->isU2FAuthEnabled();
     }
 
-    /**
-     * @param mixed $user
-     */
+    /** @inheritDoc */
     public function validateAuthenticationCode($user, string $authenticationCode): bool
     {
         if (!($user instanceof TwoFactorInterface)) {
@@ -64,6 +64,7 @@ class TwoFactorProvider implements TwoFactorProviderInterface
         return $this->authenticator->checkRequest($user, $requests, $authenticationCode);
     }
 
+    /** @inheritDoc */
     public function getFormRenderer(): TwoFactorFormRendererInterface
     {
         return $this->formRenderer;

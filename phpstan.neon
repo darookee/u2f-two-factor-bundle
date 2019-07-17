@@ -1,0 +1,5 @@
+parameters:
+    level: 7
+    excludes_analyse:
+        - %rootDir%/../../../vendor/*
+        - %rootDir%/../../../DependencyInjection/Configuration.php

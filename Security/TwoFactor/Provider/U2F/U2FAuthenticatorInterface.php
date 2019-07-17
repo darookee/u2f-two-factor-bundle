@@ -12,8 +12,9 @@ interface U2FAuthenticatorInterface
     public function generateRequest(TwoFactorInterface $user): string;
 
     /**
-     * @param array         $requests
-     * @param mixed         $authData
+     * @param mixed[] $requests
+     * @param mixed $authData
+     * @return boolean
      **/
     public function checkRequest(TwoFactorInterface $user, array $requests, $authData): bool;
 }
