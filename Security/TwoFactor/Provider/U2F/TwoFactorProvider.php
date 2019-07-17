@@ -40,7 +40,7 @@ class TwoFactorProvider implements TwoFactorProviderInterface
 
     public function prepareAuthentication($user): void
     {
-        return null;
+        return;
     }
 
     public function beginAuthentication(AuthenticationContextInterface $context): bool

@@ -2,7 +2,7 @@ import u2fApi from 'u2f-api'
 
 'use strict'
 
-var u2fauth = u2fauth || {}
+window.u2fauth = window.u2fauth || {}
 
 u2fauth.formId = 'u2fForm'
 u2fauth.authCodeId = '_auth_code'

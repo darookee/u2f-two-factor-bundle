@@ -154,7 +154,7 @@ class U2FKey implements TwoFactorKeyInterface
     protected $name;
 
     // ...
-    
+
     public function fromRegistrationData($data)
     {
         $this->keyHandle = $data->keyHandle;
@@ -234,11 +234,19 @@ r_u2f:
 The Keys can be registered visiting `/u2f_register`. It needs to be served as
 https!
 
-### Step 4: Include Javascript file
+### Step 4: Include Javascript
 
-If you're using Webpack, include this line in your `webpack.config.js`:
+First you need to add the dependency [u2f-api](https://www.npmjs.com/package/u2f-api) to your `package.json`.
 
+If you're using Webpack Encore, include this line in your `webpack.config.js`:
+```
     .addEntry('ru2ftwofactor', './web/bundles/ru2ftwofactor/js/auth.js')
+```
+
+Include this entry module on pages that need u2f support:
+```
+{{ encore_entry_script_tags('ru2ftwofactor') }}
+```
 
 ## License
 
