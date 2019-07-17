@@ -295,15 +295,12 @@ https!
 
 First you need to add the dependency [u2f-api](https://www.npmjs.com/package/u2f-api) to your `package.json`.
 
-If you're using Webpack Encore, include this line in your `webpack.config.js`:
+If you're using Webpack Encore, include this line in your `webpack.config.js` and you're done:
 ```
 .addEntry('ru2ftwofactor', './web/bundles/ru2ftwofactor/js/auth.js')
 ```
 
-Include this entry module on pages that need u2f support:
-```
-{{ encore_entry_script_tags('ru2ftwofactor') }}
-```
+If you're not using Webpack Encore, you need to bundle `web/bundles/ru2ftwofactor/js/auth.js` yourself, overwrite `formTemplate` and `registerTemplate` and add your JavaScript reference there.
 
 ## License
 
