@@ -23,7 +23,8 @@
         "yubico/u2flib-server": "^1.0.0",
         "symfony/framework-bundle": "^3.4|^4.0|^5.0",
         "symfony/templating": "^3.4|^4.0|^5.0",
-        "doctrine/collections": "^1.6"
+        "doctrine/collections": "^1.6",
+        "symfony/event-dispatcher-contracts": "^2.0"
     },
     "conflict": {
         "tubssz/u2f-two-factor-bundle": "*",

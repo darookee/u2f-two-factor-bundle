@@ -2,7 +2,7 @@
 
 namespace R\U2FTwoFactorBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Response;
 use R\U2FTwoFactorBundle\Model\U2F\TwoFactorInterface;
 use u2flib_server\Registration;
