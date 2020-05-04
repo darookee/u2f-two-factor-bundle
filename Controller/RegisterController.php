@@ -7,6 +7,7 @@ use R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\U2FAuthenticator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +34,7 @@ class RegisterController extends AbstractController
     ) {
         $this->u2fAuthenticator = $u2fAuthenticator;
         $this->session = $session;
-        $this->eventDispatcher = $eventDispatcher;
+        $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
         $this->registerTemplate = $registerTemplate;
     }
 
@@ -45,7 +46,7 @@ class RegisterController extends AbstractController
             $registration = $this->u2fAuthenticator->doRegistration($registrationRequest[0], $registerData);
 
             $event = new RegisterEvent($registration, $this->getUser(), $request->get('keyName'));
-            $this->eventDispatcher->dispatch('r_u2f_two_factor.register', $event);
+            $this->eventDispatcher->dispatch($event, 'r_u2f_two_factor.register');
 
             return $event->getResponse();
         }
