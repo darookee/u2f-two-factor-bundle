@@ -291,6 +291,17 @@ r_u2f:
 The Keys can be registered visiting `/u2f_register`. It needs to be served as
 https!
 
+### Step 4: Include Javascript
+
+First you need to add the dependency [u2f-api](https://www.npmjs.com/package/u2f-api) to your `package.json`.
+
+If you're using Webpack Encore, include this line in your `webpack.config.js` and you're done:
+```
+.addEntry('ru2ftwofactor', './web/bundles/ru2ftwofactor/js/auth.js')
+```
+
+If you're not using Webpack Encore, you need to bundle `web/bundles/ru2ftwofactor/js/auth.js` yourself, overwrite `formTemplate` and `registerTemplate` and add your JavaScript reference there.
+
 ## License
 
 This bundle is available under the [MIT license](LICENSE).

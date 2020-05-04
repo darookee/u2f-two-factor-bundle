@@ -7,5 +7,5 @@
     <p class="widget"><input id="_auth_code" type="hidden" autocomplete="off" name="_auth_code" /></p>
     {% if displayTrustedOption %}<p class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="_trusted" /> {{ 'scheb_two_factor.trusted'|trans }}</label></p>{% endif %}
 </form>
-<script src="/bundles/ru2ftwofactor/js/u2f-api.js"></script>
-<script src="/bundles/ru2ftwofactor/js/auth.js"></script>
+
+{{ encore_entry_script_tags('ru2ftwofactor') }}
