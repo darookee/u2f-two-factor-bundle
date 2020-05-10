@@ -4,6 +4,7 @@ namespace R\U2FTwoFactorBundle\Controller;
 
 use R\U2FTwoFactorBundle\Event\RegisterEvent;
 use R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\U2FAuthenticator;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -30,12 +31,14 @@ class RegisterController extends AbstractController
         U2FAuthenticator $u2fAuthenticator,
         SessionInterface $session,
         EventDispatcherInterface $eventDispatcher,
+        ContainerInterface $container,
         string $registerTemplate
     ) {
         $this->u2fAuthenticator = $u2fAuthenticator;
         $this->session = $session;
         $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
         $this->registerTemplate = $registerTemplate;
+        $this->container = $container;
     }
 
     public function u2fAction(Request $request): Response

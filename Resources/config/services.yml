@@ -22,5 +22,6 @@ services:
         arguments:
             $u2fAuthenticator: '@R\U2FTwoFactorBundle\Security\TwoFactor\Provider\U2F\U2FAuthenticator'
             $session: '@session'
+            $container: '@service_container'
             $eventDispatcher: '@event_dispatcher'
             $registerTemplate: '%r_u2f_two_factor.registerTemplate%'
